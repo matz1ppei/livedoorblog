@@ -19,8 +19,8 @@ jobs:
         pip install pipenv
         pipenv install --dev
     - name: Run pytest
-      env: |
-        USER_NAME: ${{ secrets.LIVEDOOR_BLOG.LIVEDOOR_USER_NAME }}
+      env:
+        USER_NAME: ${{ secrets.LIVEDOOR_USER_NAME }}
         API_KEY: ${{ secrets.LIVEDOOR_API_KEY }}
         BLOG_NAME: ${{ secrets.LIVEDOOR_BLOG_NAME }}
       run: |
