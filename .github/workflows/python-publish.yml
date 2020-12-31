@@ -28,4 +28,5 @@ jobs:
        USER_NAME="$USER_NAME" >> .env
        API_KEY="$API_KEY" >> .env
        BLOG_NAME="$BLOG_NAME" >> .env
+       cat .env
        pipenv run pytest
