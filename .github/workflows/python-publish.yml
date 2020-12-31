@@ -1,0 +1,28 @@
+name: Upload Python Package
+
+on: [push]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pipenv
+        pipenv install
+    - name: Run pytest
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+        API_KEY: ${{ secrets.API_KEY }}
+        BLOG_NAME: ${{ secrets.BLOG_NAME }}
+      run: |
+        pipenv shell
+        pytest
