@@ -25,8 +25,7 @@ jobs:
         BLOG_NAME: ${{ secrets.LIVEDOOR_BLOG_NAME }}
       run: |
        touch .env
-       USER_NAME="$USER_NAME" >> .env
-       API_KEY="$API_KEY" >> .env
-       BLOG_NAME="$BLOG_NAME" >> .env
-       cat .env
+       USER_NAME=$USER_NAME >> .env
+       API_KEY=$API_KEY >> .env
+       BLOG_NAME=$BLOG_NAME >> .env
        pipenv run pytest
