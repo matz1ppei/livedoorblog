@@ -24,5 +24,4 @@ jobs:
         API_KEY: ${{ secrets.API_KEY }}
         BLOG_NAME: ${{ secrets.BLOG_NAME }}
       run: |
-        pipenv shell
-        pytest
+        pipenv run pytest
