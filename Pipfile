@@ -11,5 +11,5 @@ livedoorblog = {editable = true,path = "."}
 [packages]
 requests = "*"
 
-[requires]
-python_version = "3.8"
+[scripts]
+test = "pytest"

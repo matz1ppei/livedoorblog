@@ -18,7 +18,7 @@ jobs:
       - python/save-cache
       - run:
           name: Run pytest
-          command: pipenv run pytest --username $USER_NAME --apikey $API_KEY --blogname $BLOG_NAME
+          command: pipenv run test --username $USER_NAME --apikey $API_KEY --blogname $BLOG_NAME
 
 workflows:
   main:
