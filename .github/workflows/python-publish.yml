@@ -7,6 +7,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      USER_NAME: ${{ secrets.LIVEDOOR_USER_NAME }}
+      API_KEY: ${{ secrets.LIVEDOOR_API_KEY }}
+      BLOG_NAME: ${{ secrets.LIVEDOOR_BLOG_NAME }}
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -19,9 +24,5 @@ jobs:
         pip install pipenv
         pipenv install --dev
     - name: Run pytest
-      env:
-        USER_NAME: ${{ secrets.LIVEDOOR_USER_NAME }}
-        API_KEY: ${{ secrets.LIVEDOOR_API_KEY }}
-        BLOG_NAME: ${{ secrets.LIVEDOOR_BLOG_NAME }}
       run:
         pipenv run pytest --username $USER_NAME --apikey $API_KEY --blogname $BLOG_NAME
