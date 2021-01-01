@@ -2,15 +2,15 @@ name: Upload Python Package
 
 on: [push]
 
+env:
+  USER_NAME: ${{ secrets.LIVEDOOR_USER_NAME }}
+  API_KEY: ${{ secrets.LIVEDOOR_API_KEY }}
+  BLOG_NAME: ${{ secrets.LIVEDOOR_BLOG_NAME }}
+
 jobs:
   deploy:
 
     runs-on: ubuntu-latest
-
-    env:
-      USER_NAME: ${{ secrets.LIVEDOOR_USER_NAME }}
-      API_KEY: ${{ secrets.LIVEDOOR_API_KEY }}
-      BLOG_NAME: ${{ secrets.LIVEDOOR_BLOG_NAME }}
 
     steps:
     - uses: actions/checkout@v2
@@ -25,4 +25,4 @@ jobs:
         pipenv install --dev
     - name: Run pytest
       run:
-        pipenv run pytest --username $USER_NAME --apikey $API_KEY --blogname $BLOG_NAME
+        pipenv run pytest --username "$USER_NAME" --apikey "$API_KEY" --blogname "$BLOG_NAME"
