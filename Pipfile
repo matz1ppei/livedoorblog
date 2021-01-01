@@ -10,6 +10,3 @@ livedoorblog = {editable = true,path = "."}
 
 [packages]
 requests = "*"
-
-[scripts]
-test = "pytest"
