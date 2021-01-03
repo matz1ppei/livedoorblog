@@ -37,6 +37,10 @@ class LivedoorBlog:
         auth = HTTPBasicAuth(self.__user_name, self.__api_key)
         return requests.get(url, auth=auth)
 
+    def __get_with_old_api(self, url):
+        wsse = self.__create_wsse()
+        return requests.get(url, headers={'X-WSSE': wsse})
+
     def get_articles(self):
         url = f'{LivedoorBlog.END_POINT}/{self.__blog_name}/article'
         return self.__get(url)
@@ -51,12 +55,19 @@ class LivedoorBlog:
 
     def get_images(self):
         url = f'{LivedoorBlog.END_POINT_OLD}/{self.__blog_name}/image'
-        wsse = self.__create_wsse()
-        return requests.get(url, headers={'X-WSSE': wsse})
+        return self.__get_with_old_api(url)
 
     def get_image_by_id(self, image_id):
         url = f'{LivedoorBlog.END_POINT}/{self.__blog_name}/image/{image_id}'
         return self.__get(url)
+
+    def get_comments(self):
+        url = f'{LivedoorBlog.END_POINT_OLD}/{self.__blog_name}/comment'
+        return self.__get_with_old_api(url)
+
+    def get_comment_by_id(self, comment_id):
+        url = f'{LivedoorBlog.END_POINT_OLD}/{self.__blog_name}/comment/{comment_id}'
+        return self.__get_with_old_api(url)
 
     def post_article(self, article):
         url = f'{LivedoorBlog.END_POINT}/{self.__blog_name}/article'

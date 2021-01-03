@@ -13,6 +13,7 @@ def test_initialize():
     assert client_blogname.api_key == 'apikey2'
     assert client_blogname.blog_name == 'blogname'
 
+@pytest.mark.get
 def test_get_articles(client, client_err):
     articles = client.get_articles()
     assert articles.status_code == 200
@@ -25,6 +26,7 @@ def test_get_articles(client, client_err):
     res_err = client_err.get_articles()
     assert res_err.status_code == 401
 
+@pytest.mark.get
 def test_get_article_by_id(client, client_err):
     articles = client.get_articles()
     root = ET.fromstring(articles.text)
@@ -40,6 +42,7 @@ def test_get_article_by_id(client, client_err):
     article_err = client_err.get_article_by_id(article_id)
     assert article_err.status_code == 401
 
+@pytest.mark.get
 def test_get_categorys(client, client_err):
     categorys = client.get_categorys()
     assert categorys.status_code == 200
@@ -50,6 +53,7 @@ def test_get_categorys(client, client_err):
     categorys_err = client_err.get_categorys()
     assert categorys_err.status_code == 401
 
+@pytest.mark.get
 def test_get_images(client, client_err):
     res = client.get_images()
     assert res.status_code == 200
@@ -57,6 +61,7 @@ def test_get_images(client, client_err):
     res_err = client_err.get_images()
     assert res_err.status_code == 403
 
+@pytest.mark.get
 def test_get_image_by_id(client, client_err):
     images = client.get_images()
     root = ET.fromstring(images.text)
@@ -72,6 +77,15 @@ def test_get_image_by_id(client, client_err):
     image_err = client_err.get_image_by_id(image_id)
     assert image_err.status_code == 401
 
+@pytest.mark.get
+def test_get_comments(client, client_err):
+    comments = client.get_comments()
+    assert comments.status_code == 200
+
+    comments_err = client_err.get_comments()
+    assert comments_err.status_code == 403
+
+@pytest.mark.post
 def test_post_article(client):
     entry = ET.Element('entry',
                        attrib={
