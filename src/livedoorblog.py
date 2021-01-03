@@ -55,7 +55,7 @@ class LivedoorBlog:
         return requests.get(url, headers={'X-WSSE': wsse})
 
     def get_image_by_id(self, image_id):
-        url = f'{LivedoorBlog.END_POINT}/{self.__blog_name}/image/{article_id}'
+        url = f'{LivedoorBlog.END_POINT}/{self.__blog_name}/image/{image_id}'
         return self.__get(url)
 
     def post_article(self, article):

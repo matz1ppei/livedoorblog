@@ -42,6 +42,21 @@ def test_get_images(client, client_err):
     res = client_err.get_images()
     assert res.status_code == 403
 
+def test_get_image_by_id(client, client_err):
+    images = client.get_images()
+    root = ET.fromstring(images.text)
+    entry = root.find('{http://www.w3.org/2005/Atom}entry')
+    link = entry.find('{http://www.w3.org/2005/Atom}link')
+    href = link.attrib['href']
+    url = f'http://livedoor.blogcms.jp/atom/blog/{client.blog_name}/image/'
+    image_id = href.replace(url, '')
+
+    image = client.get_image_by_id(image_id)
+    assert image.status_code == 200
+
+    res_err = client_err.get_image_by_id(image_id)
+    assert res_err.status_code == 401
+
 def test_post_article(client):
     entry = ET.Element('entry',
                        attrib={
