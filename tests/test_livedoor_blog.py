@@ -3,44 +3,59 @@ import xml.etree.ElementTree as ET
 from livedoorblog import LivedoorBlog
 
 def test_initialize():
-    client = LivedoorBlog('username', 'apikey')
-    assert client.user_name == 'username'
-    assert client.api_key == 'apikey'
-    assert client.blog_name == 'username'
+    client_default = LivedoorBlog('username', 'apikey')
+    assert client_default.user_name == 'username'
+    assert client_default.api_key == 'apikey'
+    assert client_default.blog_name == 'username'
 
-    client = LivedoorBlog('username2', 'apikey2', 'blogname')
-    assert client.user_name == 'username2'
-    assert client.api_key == 'apikey2'
-    assert client.blog_name == 'blogname'
+    client_blogname = LivedoorBlog('username2', 'apikey2', 'blogname')
+    assert client_blogname.user_name == 'username2'
+    assert client_blogname.api_key == 'apikey2'
+    assert client_blogname.blog_name == 'blogname'
 
 def test_get_articles(client, client_err):
-    res = client.get_articles()
-    assert res.status_code == 200
+    articles = client.get_articles()
+    assert articles.status_code == 200
 
-    root = ET.fromstring(res.text)
+    root = ET.fromstring(articles.text)
     author = root.find('{http://www.w3.org/2005/Atom}author')
     name = author.find('{http://www.w3.org/2005/Atom}name')
     assert name.text == client.user_name
 
-    res = client_err.get_articles()
-    assert res.status_code == 401
+    res_err = client_err.get_articles()
+    assert res_err.status_code == 401
+
+def test_get_article_by_id(client, client_err):
+    articles = client.get_articles()
+    root = ET.fromstring(articles.text)
+    entry = root.find('{http://www.w3.org/2005/Atom}entry')
+    link = entry.find('{http://www.w3.org/2005/Atom}link')
+    href = link.attrib['href']
+    url = f'{client.END_POINT}/{client.blog_name}/article/'
+    article_id = href.replace(url, '')
+
+    article = client.get_article_by_id(article_id)
+    assert article.status_code == 200
+
+    article_err = client_err.get_article_by_id(article_id)
+    assert article_err.status_code == 401
 
 def test_get_categorys(client, client_err):
-    res = client.get_categorys()
-    assert res.status_code == 200
+    categorys = client.get_categorys()
+    assert categorys.status_code == 200
 
-    root = ET.fromstring(res.text)
+    root = ET.fromstring(categorys.text)
     assert root.tag == '{http://www.w3.org/2007/app}categories'
 
-    res = client_err.get_categorys()
-    assert res.status_code == 401
+    categorys_err = client_err.get_categorys()
+    assert categorys_err.status_code == 401
 
 def test_get_images(client, client_err):
     res = client.get_images()
     assert res.status_code == 200
 
-    res = client_err.get_images()
-    assert res.status_code == 403
+    res_err = client_err.get_images()
+    assert res_err.status_code == 403
 
 def test_get_image_by_id(client, client_err):
     images = client.get_images()
@@ -54,8 +69,8 @@ def test_get_image_by_id(client, client_err):
     image = client.get_image_by_id(image_id)
     assert image.status_code == 200
 
-    res_err = client_err.get_image_by_id(image_id)
-    assert res_err.status_code == 401
+    image_err = client_err.get_image_by_id(image_id)
+    assert image_err.status_code == 401
 
 def test_post_article(client):
     entry = ET.Element('entry',
