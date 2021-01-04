@@ -12,8 +12,8 @@ setup(
     author='Ippei Matsubara',
     author_email='matz1ppei@gmail.com',
     url='https://github.com/matz1ppei/livedoorblog',
-    package_dir={'livedoorblog': 'src'},
-    packages=['livedoorblog'],
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
