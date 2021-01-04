@@ -1,4 +1,6 @@
 .coverage
 .env
 *.egg-info/
+build/
+dist/
 htmlcov/
