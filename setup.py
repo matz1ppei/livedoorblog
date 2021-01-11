@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setup(
     name='livedoorblog',
-    version='0.0.2',
+    version='0.0.3',
     description='Livedoor Blog API Client for Python',
     long_description=long_description,
     long_description_content_type='text/markdown',
